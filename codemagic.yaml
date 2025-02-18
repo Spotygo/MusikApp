@@ -2,20 +2,11 @@ workflows:
   ios:
     name: Build iOS app
     max_build_duration: 60
-    platform: ios
-    ios:
-      provisioning_profile: "your_provisioning_profile"
-      signing_certificate: "your_signing_certificate"
+    platform: ios  # Hier steht 'platform', keine weiteren Felder wie 'ios' sind erlaubt
     scripts:
       - name: Install dependencies
         script: |
-          # Ensure npm dependencies are installed
           npm install
-          # Install react-native if not present
-          npm install react-native
       - name: Build iOS app
         script: |
-          # Ensure project setup is correct
-          expo install
-          # Build iOS app using expo
           expo build:ios --no-wait
