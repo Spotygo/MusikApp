@@ -5,8 +5,8 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
-          npm install -g expo-cli
-          npm install
+          npm install  # Installiert die Abhängigkeiten deines Projekts
+          cd ios && pod install  # Installiert CocoaPods für iOS
       - name: Build iOS app
         script: |
-          expo build:ios --no-wait
+          xcodebuild -workspace ios/YourApp.xcworkspace -scheme YourApp -sdk iphoneos
