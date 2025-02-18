@@ -3,14 +3,24 @@ version: 1.0
 workflows:
   ios:
     name: Build iOS
-    # Keine "platform"-Angabe erforderlich für Codemagic
     environment:
       flutter: stable
       xcode: latest
+      node: "16"  # Stelle sicher, dass Node.js verfügbar ist
     scripts:
       - name: Install dependencies
         script: |
+          # Installiere npm global, falls nicht installiert
+          curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+          apt-get install -y nodejs
+          
+          # Installiere Expo CLI
+          npm install -g expo-cli
+
+          # Installiere die Projekt-Abhängigkeiten
           npm install
+          
+          # Expo-Installationen, falls erforderlich
           expo install
       - name: Build iOS app
         script: |
