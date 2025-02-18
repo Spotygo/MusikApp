@@ -1,12 +1,44 @@
 workflows:
   ios:
-    name: Build iOS app
-    max_build_duration: 60
+    name: iOS Build
+    max_build_duration: 120
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
     scripts:
+      # Installiere Abhängigkeiten
       - name: Install dependencies
         script: |
-          npm install  # Installiert die Abhängigkeiten deines Projekts
-          cd ios && pod install  # Installiert CocoaPods für iOS
-      - name: Build iOS app
+          npm install
+          cd ios && pod install
+          
+      # Setze die Xcode-Version (wenn nötig)
+      - name: Set Xcode version
+        script: sudo xcode-select -s /Applications/Xcode_12.app
+
+      # Erstelle die iOS-App mit Xcode
+      - name: Build iOS app with Xcode
         script: |
-          xcodebuild -workspace ios/YourApp.xcworkspace -scheme YourApp -sdk iphoneos
+          xcodebuild -workspace ios/YourApp.xcworkspace \
+            -scheme YourAppScheme \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath $PWD/build/YourApp.xcarchive \
+            clean archive
+          
+      # Exportiere das iOS Build und erstelle die IPA-Datei
+      - name: Export .ipa file
+        script: |
+          xcodebuild -exportArchive \
+            -archivePath $PWD/build/YourApp.xcarchive \
+            -exportOptionsPlist ios/YourApp/exportOptions.plist \
+            -exportPath $PWD/build
+          
+    artifacts:
+      - build/YourApp.ipa
+    notifications:
+      email:
+        recipients:
+          - your-email@example.com
+        is_build_failure_only: false
