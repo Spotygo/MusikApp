@@ -3,15 +3,15 @@ version: 1.0
 workflows:
   ios:
     name: Build iOS
-    platform: ios
-    macos:
-      version: latest
+    # Keine "platform"-Angabe erforderlich für Codemagic
     environment:
       flutter: stable
+      xcode: latest
     scripts:
       - name: Install dependencies
         script: |
-          flutter pub get
-      - name: Build iOS
+          npm install
+          expo install
+      - name: Build iOS app
         script: |
-          flutter build ios --release
+          expo build:ios
