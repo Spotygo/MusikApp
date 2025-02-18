@@ -1,0 +1,17 @@
+version: 1.0
+
+workflows:
+  ios:
+    name: Build iOS
+    platform: ios
+    macos:
+      version: latest
+    environment:
+      flutter: stable
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Build iOS
+        script: |
+          flutter build ios --release
