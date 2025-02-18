@@ -36,9 +36,4 @@ workflows:
             -exportPath $PWD/build
           
     artifacts:
-      - build/YourApp.ipa
-    notifications:
-      email:
-        recipients:
-          - your-email@example.com
-        is_build_failure_only: false
+      - build/MusicApp.ipa
