@@ -5,6 +5,7 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
+          npm install -g expo-cli
           npm install
       - name: Build iOS app
         script: |
